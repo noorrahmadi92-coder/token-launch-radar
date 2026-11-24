@@ -1,4 +1,4 @@
-/* Token Radar radar-2 theme: a dark scope screen. One palette, two radii,
+/* Token Radar radar-6 theme: a dark scope screen. One palette, two radii,
    two families; everything else is spacing, a hairline and a type step. */
 :root {
   --canvas: #0b0f14; --surface: #121a22; --surface2: #182430; --ink: #e8eef2;
@@ -106,4 +106,24 @@ tbody tr[data-selected="true"] { background: rgba(245,185,66,.09); }
   .facts { border-left: 0; border-top: 1px solid var(--border); padding-left: 0; padding-top: 16px; }
   .spot { grid-template-columns: 1fr; }
   .field input { min-width: 0; width: 100%; }
+}
+
+.judge { margin-top: 20px; padding: 18px 20px; background: rgba(245,185,66,.07); border: 1px solid rgba(245,185,66,.45); border-radius: var(--r2); }
+.judge h2 { color: var(--accent); font-size: 16px; margin-bottom: 8px; }
+.judge p { color: var(--ink); font-size: 14px; line-height: 1.65; max-width: 110ch; }
+.judge p b { color: var(--accent); font-family: var(--num); font-weight: 600; }
+.audit { margin: 4px 0 20px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); }
+.audit h2 { font-size: 16px; margin-bottom: 12px; }
+.audit-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.audit-cell { display: grid; gap: 2px; border-left: 1px solid var(--border); padding-left: 14px; }
+.audit-cell:first-child { border-left: 0; padding-left: 0; }
+.audit-cell b { font-family: var(--num); font-size: 22px; font-weight: 650; }
+.audit-cell span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+.audit-cell.total b { color: var(--accent); }
+.rankcell { display: grid; gap: 2px; }
+.rankcell b { font-size: 15px; }
+.implied .sub { display: block; }
+@media (max-width: 900px) {
+  .audit-row { grid-template-columns: repeat(2, 1fr); }
+  .audit-cell { border-left: 0; padding-left: 0; }
 }

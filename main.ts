@@ -3,9 +3,11 @@
 // What this program does, in order:
 //   1. Load the sealed DefiLlama snapshot (the frozen /input/snapshot.json,
 //      or a snapshot file / directory given with --input).
-//   2. Score every pre-token protocol with the comparables model in
-//      lib/model.ts, and refuse to continue if the resulting board
-//      breaks the scorer's gate.
+//   2. Score every rankable pre-token protocol with the fitted model in
+//      lib/model.ts -- a size curve fitted by least squares to the
+//      snapshot's live-token protocols, tested leave-one-out and in five
+//      folds, with launch odds from the peers' age record -- and refuse to
+//      continue if the resulting board breaks the scorer's gate.
 //   3. Write the ranked board to board.json and the same data, as a
 //      script the dashboard can load, to data.js.
 //   4. Copy the static dashboard and the three screenshots into the
@@ -132,8 +134,11 @@ function run(): void {
     }),
   );
 
+  const fit = radar.fit;
   process.stdout.write(
     `token radar: ${snapshot.protocols.length} protocols, ${snapshot.watchlist.length} on the watchlist, ${board.length} rows scored (${radar.early_size} early, ${radar.live_size} live set aside)\n` +
+      `token radar: audit ${radar.audit.ranked} ranked + ${radar.audit.live} live + ${radar.audit.token_no_mcap} token-no-mcap + ${radar.audit.wrapped_excluded} wrapped-excluded = ${radar.audit.total}\n` +
+      `token radar: fitted log10(FDV) = ${fit.intercept} + ${fit.slope}*log10(TVL), R2 ${fit.r_squared} on ${fit.n} comps; LOO median error ${fit.loo_median_abs_log_err} (${Math.round(fit.loo_within_2x * 100)}% within 2x), 5-fold ${fit.fold_median_abs_log_err} (${Math.round(fit.fold_within_2x * 100)}% within 2x)\n` +
       `token radar: wrote ${join(outputDir, 'board.json')}, ${join(outputDir, 'data.js')}, ${join(outputDir, 'dashboard')} (3 files), ${join(outputDir, 'screenshots')} (${shots.length} images) and ${join(outputDir, 'dossier.json')}\n`,
   );
 }
